@@ -1,2 +1,8 @@
 \section{Testing}
 \label{sec:testing}
+
+The program was designed to be tested throughout using small tests, to unit test components, and ensure condition coverage. This was achieved by designing components, methods, and files with low coupling and a single responsibility. Additionally test input could easily be mocked due to the structs simplicity.
+
+Testing was done through a main method at the very start, as the lexer component, parser component, general data architecture had to be founded. Small test cases were created to unit test. Tests were run from the main method, as no testing tools were utilized. The methods they contained were run with a static input.
+
+As the lexer and parser were completed, the testing approach changed. Testing could now be done in the actual shell, as proposed in the assignment. However, the testing frequency was kept the same as the complex methods in the executor had a rather large margin for errors.

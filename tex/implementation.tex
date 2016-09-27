@@ -3,7 +3,7 @@
 
 Our implementation of Bosh borrows some of the overall ideas of \textit{Bash}\footnote{\url{http://git.savannah.gnu.org/cgit/bash.git}}. First, the user is prompted for input which is then lexed to a list of tokens; this is what Bash refers to as a list of words. The list of tokens is then parsed to a list of commands and their associated redirects. Finally, the list of commands is executed and the process can be started over again.
 
-\begin{figure}[ht]
+\begin{figure}
   \centering
   \begin{tikzpicture}
     \node[rectangle, draw] (a) {Input};
@@ -24,7 +24,7 @@ Our implementation of Bosh borrows some of the overall ideas of \textit{Bash}\fo
 
 Where Bash relies on the \textit{Readline}\footnote{\url{http://git.savannah.gnu.org/cgit/readline.git}} library for handling user input and line editing, Bosh makes use of---and actually embeds---the much smaller \textit{Linenoise}\footnote{\url{https://github.com/antirez/linenoise}} library. Linenoise supports many of the same features as Readline, such as command history, autocompletion, and hints, but at a fraction of the size which made it trivial to embed Linenoise within Bosh.
 
-Prior to every user input, Bosh displays the same information in the shell as Bash. Specifically, the login name of the current user, the hostname of the system, and the current working directory is displayed in the following format:
+Prior to every user input, Bosh displays the same information in the shell as Bash. Specifically, the login name of the current user, the hostname of the system, and the current working directory is displayed:
 
 \begin{lstlisting}
 login@hostname:/current/path#

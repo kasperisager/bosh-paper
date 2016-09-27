@@ -105,4 +105,4 @@ The PID of the currently running process is stored statically within the executo
 
 \texttt{exit} is used for exiting the current shell session and terminates any child processes before exiting with either a user specified status code or 0. The command is implemented by first ignoring the \texttt{SIGTERM} signal from the shell process and then sending this same signal to the process group of the shell after which the \texttt{exit()} system call is invoked.
 
-\texttt{cd} is used for changing the working directory of the current shell session. The command is implemented by using the \texttt{chdir()} system call and falls back to the directory specified by the \texttt{\$HOME} environment variable if no directory is provided.
+\texttt{cd} is used for changing the working directory of the current shell session. The command is implemented by using the \texttt{chdir()} system call and falls back to the home directory of the current user if no directory is provided.

@@ -1,0 +1,48 @@
+\title{Bosh: A minimal Unix shell in C}
+
+\author{
+  Alexander Westi Astrup \\
+  IT University of Copenhagen, Denmark \\
+  \texttt{@itu.dk}
+  \and
+  Kasper Kronborg Isager \\
+  IT University of Copenhagen, Denmark \\
+  \texttt{kasi@itu.dk}
+  \and
+  Johan Hjalte \'a Tr\o dni \\
+  IT University of Copenhagen, Denmark \\
+  \texttt{@itu.dk}
+}
+
+\date{\today}
+
+\documentclass[twocolumn,a4paper]{article}
+
+\usepackage{appendix}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{tikz}
+
+\begin{document}
+
+\lstset{
+  breaklines=true
+}
+
+\usetikzlibrary{positioning}
+
+\maketitle
+
+\input{tex/abstract.tex}
+\input{tex/introduction.tex}
+\input{tex/implementation.tex}
+\input{tex/conclusion.tex}
+
+\begin{appendices}
+% \input{tex/appendix/source.tex}
+\end{appendices}
+
+\bibliographystyle{abbrv}
+\bibliography{tex/bibliography}
+
+\end{document}

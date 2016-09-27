@@ -1,0 +1,12 @@
+\section{Introduction}
+\label{sec:introduction}
+
+A command-line interpreter, often simply referred to as a "shell", is a program that enables a user to interact with an operating system through a command-line interface. The user enters commands into the shell which in return interprets these and executes the corresponding programs if found on the system.
+
+The shell also facilitates communication between different programs through \textit{piping}; the output of one program may be used as the input of another program. \textit{Pipelines} can then be constructed between a series of programs such that each program reads from the program before it and writes to the next.
+
+While piping is one form of \textit{I/O redirection} supported by a shell, input and output may also be redirected to and from files on the file system. As such, a program may read its input from a file and write its output to a file.
+
+Another important aspect of a shell is the ability to execute programs as background processes such that multiple programs may run simultaneously without the need for \textit{multiplexing}\footnote{\url{https://en.wikipedia.org/wiki/Multiplexing}}.
+
+\paragraph{Bosh} The goal of our project is to implement a shell, aptly named BOSC Shell or Bosh for short, that supports the above mentioned features. The shell will be written in C and must work independently of any existing shells that might be present on a given system. We have taken the additional liberty of ensuring that the shell has no external dependencies and as such makes no assumptions about the libraries installed on a given system.

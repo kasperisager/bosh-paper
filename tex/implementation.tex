@@ -30,8 +30,67 @@ Prior to every user input, Bosh displays the same information in the shell as Ba
 login@hostname:/current/path#
 \end{lstlisting}
 
+Rather than assume that a Linux kernel is used and reading the above information from \texttt{/proc}, we instead use the corresponding system calls: \texttt{gethostname()} for the hostname, \texttt{getcwd()} for the working directory, and \texttt{getuid()} combined with \texttt{getpwuid()} for the login name.
+
+In order to reliably allocate enough memory for these pieces of information, we look at the configured system maximums for each using the \texttt{sysconf()} and \texttt{pathconf()} system calls.
+
 \subsection{Lexer}
 
+Once the user has inputted one or more commands into the shell, this input is lexed to a list of tokens. Each token is described by the following struct which stores the type and optional value of the token:
+
+\begin{lstlisting}[language=C]
+struct token {
+  enum {
+    PIPE, BG, RDIR, LDIR,
+    NAME, EOS
+  } type;
+
+  union {
+    char *str;
+  } value;
+};
+\end{lstlisting}
+
+While the \texttt{value} union currently only includes a single case, a union type was chosen in order to facilitate future support for tokens with different types of values such as booleans or numbers.
+
+The first four token types represents the \texttt{|}, \texttt{\&}, \texttt{>}, and \texttt{<} characters, respectively. Neither of these have an associated value.
+
+The name token represents a variable string that may the name of a program to execute, an argument to such a program, or even the name of a file to redirect to or from. This token sets its associated \texttt{value.str}.
+
+The last token, end of statement, represents the \texttt{;} character and marks the end of a command statement. For example, given the input \texttt{ls; echo foo}, \texttt{ls} and \texttt{echo foo} should be treated as two separate commands. This token has no associated value.
+
 \subsection{Parser}
+
+Once the input has been lexed, the resulting list of tokens is parsed to a list of commands. Each command is described by the following struct which stores the program, arguments, I/O redirects, and backgrounding flag of the command:
+
+\begin{lstlisting}[language=C]
+struct command {
+  char *program;
+  char **arguments;
+  bool background;
+  struct redirect *in;
+  struct redirect *out;
+};
+\end{lstlisting}
+
+The parser makes sense of the list of tokens, ensuring that invalid token combinations are not accepted as valid input. For example, the input \texttt{ls >} would cause the parser to fail as an output redirect to file that has not been specified does not make sense.
+
+Another critical task of the parser is to define the redirects to and from processes and files. As can be seen above, each command may specifify both an input and an output redirect. Each redirect is described by the following struct which stores the type and value of the redirect:
+
+\begin{lstlisting}[language=C]
+struct redirect {
+  enum {
+    PROCESS, FILENAME
+  } type;
+
+  union {
+    char *filename;
+  } value;
+};
+\end{lstlisting}
+
+In the case of a process redirect, for example \texttt{ls | wc}, the parser will construct an output redirect of type \texttt{PROCESS} for the \texttt{ls} command in addition to an input redirect of type \texttt{PROCESS} for the \texttt{wc} command.
+
+Similarly, in the case of file redirects such as \texttt{ls > foo.txt}, the parser will construct an input or output redirect of type \texttt{FILENAME} with \texttt{value.filename} set.
 
 \subsection{Executor}

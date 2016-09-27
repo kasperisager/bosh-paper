@@ -3,5 +3,4 @@ pdf/paper.pdf: \
   tex/conclusion.tex \
   tex/implementation.tex \
   tex/introduction.tex \
-  tex/appendix/source.tex \
-  tex/bibliography.bib
+  tex/appendix/source.tex
